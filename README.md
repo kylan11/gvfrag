@@ -13,8 +13,10 @@ Then, run by shell by typing the following command (**ONLY WORKING WITH JAVA 14 
 ```shell
 java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]
 ```
-**-S** (SPLIT) Takes GVCore.xml as input, and produces (in an output folder where the JAR file is located) multiple direcories that represent the tags, (such as GVServices/, GVSystems/, GVPolicy/, GVAdapters/) and a skeleton file (**GVFrag.xml**) that contains the remaining tags which were NOT split. 
-**-M** (MAKE) Takes GVFrag.xml as input, and searches for the necessary directories (such directories must be in the same folder as GVFrag.xml) and produces a fully functioning GVCore.xml file.
-**--help** Displays a useful help message.
+- **-S** (SPLIT) Takes GVCore.xml as input, and produces (in an output folder where the JAR file is located) multiple direcories that represent the tags, (such as GVServices/, GVSystems/, GVPolicy/, GVAdapters/) and a skeleton file (**GVFrag.xml**) that contains the remaining tags which were NOT split. 
+
+- **-M** (MAKE) Takes GVFrag.xml as input, and searches for the necessary directories (such directories must be in the same folder as GVFrag.xml) and produces a fully functioning GVCore.xml file.
+
+- **--help** Displays a useful help message.
 
 #### DO NOT USE IN PRODUCTION ENVIRONMENTS. GVFrag IS LARGELY UNTESTED AND MAY RESULT IN XML DATA CORRUPTION.
