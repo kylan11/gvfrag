@@ -2,7 +2,8 @@
 # GV Frag - Fragmenting Utility Software for GAIA Projects
 
 ## What is it
-This is a work-in-progress, simple, open-source and **experimental** utility software that makes it easier for developers to work on a single GAIA Project concurrently. So far, each GAIA deploy configuration resided in a single, huge XML file, making it a nightmare for projects that required multiple developers. Changes had to be merged manually. GVFrag solves that a provides a simple fragmenting structure that DOES NOT lose any data.
+This is a work-in-progress, simple, open-source and **experimental** utility software that makes it easier for developers to work on a single GAIA Project concurrently. So far, each GAIA deploy configuration resided in a single, huge XML file, making it a nightmare for projects that required multiple developers. Changes had to be merged manually. GVFrag solves that and provides a simple fragmenting structure that DOES NOT lose any data. Each developer can add features and merge them into a single Git repository.
+
 
 ## Usage
 
