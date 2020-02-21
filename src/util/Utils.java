@@ -25,7 +25,7 @@ public class Utils {
 
     // returns an iterator of NodeList
     public static Iterable<Node> iterable(final NodeList nodeList) {
-        return () -> new Iterator<>() {
+        return () -> new Iterator<Node>() {
 
             private int index = 0;
 
