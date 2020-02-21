@@ -9,7 +9,7 @@ This is a work-in-progress, simple, open-source and **experimental** utility sof
 
 Clone the gvfrag.jar file from this repository and place it anywhere.
 
-Then, run by shell by typing the following command (**ONLY WORKING WITH JAVA 14 AND LINUX FS**)
+Then, run by shell by typing the following command (**Needs Java 11**)
 ```shell
 java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]
 ```
@@ -19,4 +19,6 @@ java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]
 
 - **--help** Displays a useful help message.
 
-#### DO NOT USE IN PRODUCTION ENVIRONMENTS. GVFrag IS LARGELY UNTESTED AND MAY RESULT IN XML DATA CORRUPTION.
+**GVFrag only works on Linux/Macintosh file systems**.
+
+#### DO NOT USE IN PRODUCTION ENVIRONMENTS. GVFRAG IS AN EXPERIMENTAL FEATURE AND MAY RESULT IN XML DATA CORRUPTION.
