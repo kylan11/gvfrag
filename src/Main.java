@@ -1,10 +1,5 @@
-package controller;
-
 import model.OutputFile;
-import model.builders.AdaptersBuilder;
-import model.builders.PolicyBuilder;
-import model.builders.ServicesBuilder;
-import model.builders.SystemsBuilder;
+import model.builders.*;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import util.Utils;
@@ -19,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    private final static String OUTPUT_BASEPATH = "output";
 
     public static void main(String[] args) {
         try {
@@ -49,30 +45,35 @@ public class Main {
             XPathExpressionException, TransformerFactoryConfigurationError, TransformerException {
         Document rootDoc = Utils.readGVCore(path);
 
-        // list of files created by the model.builders
-        List<List<OutputFile>> output = new ArrayList<>();
+        PolicyBuilder policy = new PolicyBuilder();
+        ServicesBuilder services = new ServicesBuilder();
+        SystemsBuilder systems = new SystemsBuilder();
+        AdaptersBuilder adapters = new AdaptersBuilder();
 
-        output.add(new PolicyBuilder().build(rootDoc));
-        output.add(new ServicesBuilder().build(rootDoc));
-        output.add(new SystemsBuilder().build(rootDoc));
-        output.add(new AdaptersBuilder().build(rootDoc));
+        policy.build(rootDoc);
+        services.build(rootDoc);
+        systems.build(rootDoc);
+        adapters.build(rootDoc);
 
         // saves in-memory built files to disk
-        Utils.saveFiles(output);
+        Builder.saveFiles(policy, services, systems, adapters);
 
         // builds GVFrag.xml skeleton
-        OutputFile gvfrag = new OutputFile(rootDoc, "output", "GVFrag.xml");
+        OutputFile gvfrag = new OutputFile(rootDoc, OUTPUT_BASEPATH, "GVFrag.xml");
         gvfrag.create();
     }
 
     public static void makeCore(String pathToFrag) throws SAXException, IOException, ParserConfigurationException, TransformerException {
         Document gvfrag = Utils.fileToDocument(new File(pathToFrag));
         final String basePath = Utils.absoluteToPath(pathToFrag);
+
         new ServicesBuilder().remake(gvfrag, basePath);
         new SystemsBuilder().remake(gvfrag, basePath);
         new AdaptersBuilder().remake(gvfrag, basePath);
         new PolicyBuilder().remake(gvfrag, basePath);
-        OutputFile gvcore = new OutputFile(Utils.writeGVCore(gvfrag), "output", "GVCore.xml");
+
+        // rebuilds GVCore.xml from fragments
+        OutputFile gvcore = new OutputFile(Utils.writeGVCore(gvfrag), OUTPUT_BASEPATH, "GVCore.xml");
         gvcore.create();
     }
 }

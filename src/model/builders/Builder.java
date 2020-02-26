@@ -19,14 +19,14 @@ public abstract class Builder {
 
     public static final XPath xpath = XPathFactory.newInstance().newXPath();
 
-    public static List<OutputFile> outputFiles = new ArrayList<>();
+    public List<OutputFile> outputFiles = new ArrayList<>();
 
     public static String BASE_XPATH = null;
 
     public static String OUTPUT_BASE_PATH = null;
 
     // builds xml document from required xpath then returns a list of File objects it created.
-    public abstract List<OutputFile> build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException;
+    public abstract void build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException;
 
     public abstract void remake(Document doc, String path) throws ParserConfigurationException, SAXException, IOException;
 
@@ -34,4 +34,11 @@ public abstract class Builder {
         firstNode.getParentNode().removeChild(firstNode);
     }
 
+    public static void saveFiles(Builder... builders) throws IOException {
+        for(Builder builder: builders) {
+            for(OutputFile currentFile: builder.outputFiles) {
+                currentFile.create();
+            }
+        }
+    }
 }

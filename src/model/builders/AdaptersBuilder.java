@@ -21,12 +21,11 @@ public class AdaptersBuilder extends Builder {
     }
 
     @Override
-    public List<OutputFile> build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException {
+    public void build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException {
         Node adapters = (Node) xpath.compile(BASE_XPATH).evaluate(doc, XPathConstants.NODE);
         String fileName = adapters.getNodeName() + ".xml";
         outputFiles.add(new OutputFile(Utils.nodeToDocument(adapters), OUTPUT_BASE_PATH, fileName));
         removeFromSkeleton(adapters);
-        return outputFiles;
     }
 
     @Override

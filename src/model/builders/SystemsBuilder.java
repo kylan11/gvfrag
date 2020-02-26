@@ -26,7 +26,7 @@ public class SystemsBuilder extends Builder {
     }
 
     @Override
-    public List<OutputFile> build(Document doc) throws XPathExpressionException, ParserConfigurationException,
+    public void build(Document doc) throws XPathExpressionException, ParserConfigurationException,
             TransformerFactoryConfigurationError, TransformerException, IOException {
 
         Node firstNode = (Node) xpath.compile(BASE_XPATH).evaluate(doc, XPathConstants.NODE);
@@ -41,7 +41,6 @@ public class SystemsBuilder extends Builder {
             }
         }
         removeFromSkeleton(firstNode);
-        return outputFiles;
     }
 
     @Override

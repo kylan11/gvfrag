@@ -23,12 +23,11 @@ public class PolicyBuilder extends Builder {
     }
 
     @Override
-    public List<OutputFile> build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException {
+    public void build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException {
         Node policy = (Node) xpath.compile(BASE_XPATH).evaluate(doc, XPathConstants.NODE);
         String fileName = policy.getNodeName() + ".xml";
         outputFiles.add(new OutputFile(Utils.nodeToDocument(policy), OUTPUT_BASE_PATH, fileName));
         removeFromSkeleton(policy);
-        return outputFiles;
     }
 
     @Override

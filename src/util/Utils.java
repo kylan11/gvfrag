@@ -119,18 +119,6 @@ public class Utils {
         return absolutePath.startsWith("/") ? "/" + String.join("/", l) : String.join("/", l);
     }
 
-    public static void saveFiles(List<List<OutputFile>> outputs) throws IOException {
-
-        // loops each list of files made by model.builders
-        for (List<OutputFile> outputFiles : outputs) {
-
-            // loops each file of the current builder
-            for (OutputFile outputFile : outputFiles) {
-                outputFile.create();
-            }
-        }
-    }
-
     public static Element createElement(Element parent, String name) {
         Document document;
         Element element;
