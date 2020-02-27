@@ -66,13 +66,13 @@ public class Utils {
 
     public static void invalidArgs() {
         System.out.println("Invalid arguments. Usage: java -jar gvfrag.jar [-S|-M] "
-                + "/path/to/[GVCore.xml|GVFrag.xml] [/optional/output/folder]\n" +
-                "Use --help for additional informations.");
+                + "/path/to/[GVCore.xml|GVFrag.xml] [/optional/output/dir]\n" +
+                "Use --help for additional info.");
     }
 
     public static void help() {
         System.out.println("Usage: java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]"
-                + "[/optional/output/folder]\n"
+                + "[/optional/output/dir]\n"
                 + "[-S]: Split GVCore into folder components and produces GVFrag.xml\n"
                 + "[-M]: Produce GVCore.xml from GVFrag.xml and attached folder components.\n"
                 + "[--help]: Displays this message.");
@@ -83,7 +83,7 @@ public class Utils {
     }
 
     public static void fileNotFound() {
-        System.out.println("Required XML file was not found in given path.");
+        System.out.println("Required .xml file was not found in given path. Program will now exit.");
     }
 
     public static String getBasePath(String[] args) {
