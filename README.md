@@ -11,7 +11,7 @@ Clone the gvfrag.jar file from this repository and place it anywhere.
 
 Then, run by shell by typing the following command (**Needs Java 11**)
 ```shell
-java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]
+java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml] [/optional/output/dir]
 ```
 - **-S** (SPLIT) Takes GVCore.xml as input, and produces (in an output folder where the JAR file is located) multiple direcories that represent the tags, (such as GVServices/, GVSystems/, GVPolicy/, GVAdapters/) and a skeleton file (**GVFrag.xml**) that contains the remaining tags which were NOT split. 
 
