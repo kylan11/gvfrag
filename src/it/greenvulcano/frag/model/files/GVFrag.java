@@ -12,5 +12,7 @@ public class GVFrag {
 
     public static void create(Document skeleton) throws TransformerException, IOException {
         new File(skeleton, Main.BASE_PATH, name).create();
+        System.out.println(String.format("Generated %s/%s",
+                Main.BASE_PATH, name));
     }
 }

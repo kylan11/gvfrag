@@ -50,7 +50,7 @@ public class Main {
 
     public static void splitCore(String pathToCore) throws SAXException, IOException, ParserConfigurationException,
             XPathExpressionException, TransformerFactoryConfigurationError, TransformerException {
-        Document rootDoc = Utils.readGVCore(pathToCore);
+        Document gvcore = GVCore.read(pathToCore);
 
         PolicyBuilder policy = new PolicyBuilder();
         ServicesBuilder services = new ServicesBuilder();
@@ -58,13 +58,15 @@ public class Main {
         AdaptersBuilder adapters = new AdaptersBuilder();
 
         // generates docs and directory trees from GVCore.xml root document
-        Builder.massBuild(rootDoc, policy, services, systems, adapters);
+        Builder.massBuild(gvcore, policy, services, systems, adapters);
 
         // saves in-memory built files to disk
         Builder.saveFiles(policy, services, systems, adapters);
 
         // builds GVFrag.xml skeleton
-        GVFrag.create(rootDoc);
+        GVFrag.create(gvcore);
+
+        System.out.println("All done!");
     }
 
     public static void makeCore(String pathToFrag) throws SAXException, IOException, ParserConfigurationException, TransformerException {
@@ -81,5 +83,7 @@ public class Main {
 
         // writes in-memory GVCore.xml to output
         GVCore.create(gvfrag);
+
+        System.out.println("All done!");
     }
 }

@@ -2,7 +2,11 @@ package it.greenvulcano.frag.model.files;
 
 import it.greenvulcano.frag.Main;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -10,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class GVCore {
 
@@ -17,8 +23,19 @@ public class GVCore {
 
     private static final String doctype = "http://www.greenvulcano.com/gvesb/dtds/GVCore.dtd";
 
+    private static final String TO_REPLACE = "<!DOCTYPE GVCore SYSTEM \"http://www.greenvulcano.com/gvesb/dtds/GVCore.dtd\">";
+
     public static void create(Document gvfrag) throws TransformerException, IOException {
         new File(docToString(gvfrag), Main.BASE_PATH, name).create();
+        System.out.println(String.format("Generated %s/%s",
+                Main.BASE_PATH, name));
+    }
+
+    public static Document read(String path) throws IOException, ParserConfigurationException, SAXException {
+        String gvcore = new String(Files.readAllBytes(Paths.get(path))).replace(TO_REPLACE, "\n");
+        InputSource is = new InputSource();
+        is.setCharacterStream(new StringReader(gvcore));
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
     }
 
     public static String docToString(Document doc) throws TransformerFactoryConfigurationError, TransformerException, IOException {

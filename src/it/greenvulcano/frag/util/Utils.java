@@ -4,7 +4,6 @@ import it.greenvulcano.frag.Main;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -12,14 +11,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Utils {
-
-    private static final String TO_REPLACE = "<!DOCTYPE GVCore SYSTEM \"http://www.greenvulcano.com/gvesb/dtds/GVCore.dtd\">";
 
     // returns an iterator of NodeList
     public static Iterable<Node> iterable(final NodeList nodeList) {
@@ -39,13 +33,6 @@ public class Utils {
                 return nodeList.item(index++);
             }
         };
-    }
-
-    public static Document readGVCore(String path) throws IOException, ParserConfigurationException, SAXException {
-        String gvcore = new String(Files.readAllBytes(Paths.get(path))).replace(TO_REPLACE, "\n");
-        InputSource is = new InputSource();
-        is.setCharacterStream(new StringReader(gvcore));
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
     }
 
     // utility method to convert a file into a document

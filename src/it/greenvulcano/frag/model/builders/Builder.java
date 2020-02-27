@@ -38,7 +38,6 @@ public abstract class Builder {
                         currentFile.getPathString(), currentFile.getName()));
             }
         }
-        System.out.println("All done!");
     }
 
     public static void massBuild(Document rootDoc, Builder... builders) throws ParserConfigurationException, IOException, XPathExpressionException, TransformerException {
