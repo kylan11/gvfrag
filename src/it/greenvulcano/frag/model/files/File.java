@@ -1,5 +1,4 @@
-package model;
-
+package it.greenvulcano.frag.model.files;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.*;
@@ -18,11 +17,11 @@ import java.security.InvalidParameterException;
  * Files are encoded in UTF-8 by default. org.w3c.Document objects are converted into
  * String without empty lines and indented with 4 spaces by default.
  *
- * @author      Francesco Lauritano
- * @version     %I%, %G%
- * @since       1.0
+ * @author Francesco Lauritano
+ * @version %I%, %G%
+ * @since 1.0
  */
-public class OutputFile {
+public class File {
 
     private static int INDENT_FACTOR = 4;
 
@@ -35,18 +34,20 @@ public class OutputFile {
     // path to file
     private Path path = null;
 
-    public OutputFile() {}
+    public File() {
+    }
 
     public void setIndent(int indent) {
         INDENT_FACTOR = indent;
     }
-    public OutputFile(String content, String path, String name) {
+
+    public File(String content, String path, String name) {
         this.content = content;
         this.name = name;
         setPath(path);
     }
 
-    public OutputFile(Document doc, String path, String name) throws TransformerFactoryConfigurationError, TransformerException, IOException {
+    public File(Document doc, String path, String name) throws TransformerFactoryConfigurationError, TransformerException, IOException {
         this.content = docToString(doc);
         this.name = name;
         setPath(path);
@@ -90,7 +91,7 @@ public class OutputFile {
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(INDENT_FACTOR));
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", String.valueOf(INDENT_FACTOR));
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);
         transformer.transform(new DOMSource(doc), result);
@@ -110,6 +111,7 @@ public class OutputFile {
         }
         return buf.toString();
     }
+
 
     public String getFilePath() {
         return getPathString() + "/" + name;

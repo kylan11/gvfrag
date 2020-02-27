@@ -1,6 +1,6 @@
-package model.builders;
+package it.greenvulcano.frag.model.builders;
 
-import model.OutputFile;
+import it.greenvulcano.frag.model.files.File;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -19,11 +19,7 @@ public abstract class Builder {
 
     public static final XPath xpath = XPathFactory.newInstance().newXPath();
 
-    public List<OutputFile> outputFiles = new ArrayList<>();
-
-    public static String BASE_XPATH = null;
-
-    public static String OUTPUT_BASE_PATH = null;
+    public List<File> outputFiles = new ArrayList<>();
 
     // builds xml document from required xpath then returns a list of File objects it created.
     public abstract void build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException;
@@ -35,10 +31,25 @@ public abstract class Builder {
     }
 
     public static void saveFiles(Builder... builders) throws IOException {
-        for(Builder builder: builders) {
-            for(OutputFile currentFile: builder.outputFiles) {
+        for (Builder builder : builders) {
+            for (File currentFile : builder.outputFiles) {
                 currentFile.create();
+                System.out.println(String.format("Generated %s/%s",
+                        currentFile.getPathString(), currentFile.getName()));
             }
+        }
+        System.out.println("All done!");
+    }
+
+    public static void massBuild(Document rootDoc, Builder... builders) throws ParserConfigurationException, IOException, XPathExpressionException, TransformerException {
+        for (Builder builder : builders) {
+            builder.build(rootDoc);
+        }
+    }
+
+    public static void massRemake(Document gvfrag, String basePath, Builder... builders) throws IOException, SAXException, ParserConfigurationException {
+        for (Builder builder : builders) {
+            builder.remake(gvfrag, basePath);
         }
     }
 }

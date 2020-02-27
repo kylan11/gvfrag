@@ -1,8 +1,7 @@
-package util;
+package it.greenvulcano.frag.util;
 
-import model.OutputFile;
+import it.greenvulcano.frag.Main;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -11,10 +10,9 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -25,7 +23,7 @@ public class Utils {
 
     // returns an iterator of NodeList
     public static Iterable<Node> iterable(final NodeList nodeList) {
-        return () -> new Iterator<Node>() {
+        return () -> new Iterator<>() {
 
             private int index = 0;
 
@@ -50,50 +48,10 @@ public class Utils {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
     }
 
-    public static String writeGVCore(Document doc) throws TransformerException, IOException {
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "http://www.greenvulcano.com/gvesb/dtds/GVCore.dtd");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-        StringWriter writer = new StringWriter();
-        StreamResult result = new StreamResult(writer);
-        transformer.transform(new DOMSource(doc), result);
-        BufferedReader reader = new BufferedReader(new StringReader(writer.toString()));
-        StringBuilder buf = new StringBuilder();
-        try {
-            final String NL = System.getProperty("line.separator", "\r\n");
-            String line;
-            while( (line=reader.readLine())!=null ) {
-                if (!line.trim().isEmpty()) {
-                    buf.append(line);
-                    buf.append(NL);
-                }
-            }
-        } finally {
-            reader.close();
-        }
-        return buf.toString();
-    }
-
     // utility method to convert a file into a document
     public static Document fileToDocument(File gvcore)
             throws SAXException, IOException, ParserConfigurationException {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(gvcore);
-    }
-
-    // utility methot to convert a string into a document
-    public static Document toDocument(String data)
-            throws SAXException, IOException, ParserConfigurationException {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(data);
-    }
-
-    public static Document newDocument() throws ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = dbf.newDocumentBuilder();
-        return builder.newDocument();
     }
 
     // utility method to convert a node into a new document
@@ -119,14 +77,33 @@ public class Utils {
         return absolutePath.startsWith("/") ? "/" + String.join("/", l) : String.join("/", l);
     }
 
-    public static Element createElement(Element parent, String name) {
-        Document document;
-        Element element;
+    public static void invalidArgs() {
+        System.out.println("Invalid arguments. Usage: java -jar gvfrag.jar [-S|-M] "
+                + "/path/to/[GVCore.xml|GVFrag.xml] [/optional/output/folder]\n" +
+                "Use --help for additional informations.");
+    }
 
-        document = parent.getOwnerDocument();
-        element  = document.createElement(name);
+    public static void help() {
+        System.out.println("Usage: java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]"
+                + "[/optional/output/folder]\n"
+                + "[-S]: Split GVCore into folder components and produces GVFrag.xml\n"
+                + "[-M]: Produce GVCore.xml from GVFrag.xml and attached folder components.\n"
+                + "[--help]: Displays this message.");
+    }
 
-        parent.appendChild(element);
-        return element;
+    public static void genericError() {
+        System.out.println("Something went wrong. Program will now exit.");
+    }
+
+    public static void fileNotFound() {
+        System.out.println("Required XML file was not found in given path.");
+    }
+
+    public static String getBasePath(String[] args) {
+        try {
+            return args[2];
+        } catch (IndexOutOfBoundsException e) {
+            return Main.BASE_PATH;
+        }
     }
 }

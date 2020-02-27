@@ -1,10 +1,11 @@
-package model.builders;
+package it.greenvulcano.frag.model.builders;
 
-import model.OutputFile;
+import it.greenvulcano.frag.Main;
+import it.greenvulcano.frag.model.files.File;
+import it.greenvulcano.frag.util.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import util.Utils;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -12,19 +13,17 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.List;
 
 public class AdaptersBuilder extends Builder {
-    static {
-        OUTPUT_BASE_PATH = "output/GVAdapters";
-        BASE_XPATH = "/GVCore/GVAdapters";
-    }
+
+    final String OUTPUT_BASE_PATH = Main.BASE_PATH + "/GVAdapters";
+    final String BASE_XPATH = "/GVCore/GVAdapters";
 
     @Override
     public void build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException {
         Node adapters = (Node) xpath.compile(BASE_XPATH).evaluate(doc, XPathConstants.NODE);
         String fileName = adapters.getNodeName() + ".xml";
-        outputFiles.add(new OutputFile(Utils.nodeToDocument(adapters), OUTPUT_BASE_PATH, fileName));
+        outputFiles.add(new File(Utils.nodeToDocument(adapters), OUTPUT_BASE_PATH, fileName));
         removeFromSkeleton(adapters);
     }
 
