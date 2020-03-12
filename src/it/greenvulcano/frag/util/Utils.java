@@ -69,7 +69,7 @@ public class Utils {
                 + "[-h|--help]: Displays this message.\n\n");
         System.out.println(String.format("GVFrag v%s\n" +
                 "Java v%s\n" +
-                "GreenVulcano ESB (GAIA) v%s", Main.CURRENT_VERSION, getJavaVersion() == "null" ? getJavaVersion() : "11", Main.GAIA_VERSION));
+                "GreenVulcano ESB (GAIA) v%s", Main.CURRENT_VERSION, getJavaVersion().equals("null") ? getJavaVersion() : "11", Main.GAIA_VERSION));
     }
 
     public static void genericError() {

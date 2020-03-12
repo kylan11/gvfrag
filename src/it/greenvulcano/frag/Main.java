@@ -16,8 +16,8 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    public static String CURRENT_VERSION = "0.1.3";
-    public static String GAIA_VERSION = "4.1.0";
+    public static final String CURRENT_VERSION = "0.1.3";
+    public static final String GAIA_VERSION = "4.1.0";
     public static String BASE_PATH = "output";
 
     public static void main(String[] args) {
