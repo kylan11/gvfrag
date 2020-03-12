@@ -1,6 +1,7 @@
 package it.greenvulcano.frag.model.builders;
 
 import it.greenvulcano.frag.model.files.File;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -34,8 +35,8 @@ public abstract class Builder {
         for (Builder builder : builders) {
             for (File currentFile : builder.outputFiles) {
                 currentFile.create();
-                System.out.println(String.format("Generated %s/%s",
-                        currentFile.getPathString(), currentFile.getName()));
+                System.out.println(String.format("Generated %s%s%s",
+                        currentFile.getPathString(), PathResolver.separator, currentFile.getName()));
             }
         }
     }

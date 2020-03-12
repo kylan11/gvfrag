@@ -2,6 +2,7 @@ package it.greenvulcano.frag.model.builders;
 
 import it.greenvulcano.frag.Main;
 import it.greenvulcano.frag.model.files.File;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import it.greenvulcano.frag.util.Utils;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -16,7 +17,7 @@ import java.util.Objects;
 
 public class ServicesBuilder extends Builder {
 
-    final String OUTPUT_BASE_PATH = Main.BASE_PATH + "/GVServices";
+    final String OUTPUT_BASE_PATH = PathResolver.get(Main.BASE_PATH, "GVServices");
     final String BASE_XPATH = "/GVCore/GVServices";
 
     @Override
@@ -34,13 +35,13 @@ public class ServicesBuilder extends Builder {
 
             for(Node condition: Utils.iterable(conditions)) {
                 outputFiles.add(new File(Utils.nodeToDocument(condition),
-                        Utils.pathBuilder(OUTPUT_BASE_PATH, currentGroup, currentServiceId), "Conditions.xml"));
+                        PathResolver.get(OUTPUT_BASE_PATH, currentGroup, currentServiceId), "Conditions.xml"));
             }
 
             for (Node operation : Utils.iterable(operations)) {
                 String fileName = ((Element) operation).getAttribute("name") + ".xml";
                 outputFiles.add(new File(Utils.nodeToDocument(operation),
-                        Utils.pathBuilder(OUTPUT_BASE_PATH, currentGroup, currentServiceId), fileName));
+                        PathResolver.get(OUTPUT_BASE_PATH, currentGroup, currentServiceId), fileName));
             }
         }
         removeFromSkeleton(firstNode);
@@ -48,7 +49,7 @@ public class ServicesBuilder extends Builder {
 
     @Override
     public void remake(Document gvfrag, String path) throws ParserConfigurationException, SAXException, IOException {
-        java.io.File rootDir = new java.io.File(path + "/GVServices");
+        java.io.File rootDir = new java.io.File(PathResolver.get(path, "GVServices"));
 
         // first of all, creates root node.
         Element GVServices = gvfrag.createElement("GVServices");
@@ -98,7 +99,7 @@ public class ServicesBuilder extends Builder {
                 Service.setAttribute("statistics", "off");
                 java.io.File[] operations = currentService.listFiles();
                 for (java.io.File currentOperationFile : Objects.requireNonNull(operations)) {
-                    // WARNING: This also takes Conditions.
+                    // WARNING: This also appends Conditions.
                     Node operation = Utils.fileToDocument(currentOperationFile).getFirstChild();
                     Service.appendChild(gvfrag.adoptNode(operation));
                 }

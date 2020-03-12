@@ -2,6 +2,7 @@ package it.greenvulcano.frag.model.builders;
 
 import it.greenvulcano.frag.Main;
 import it.greenvulcano.frag.model.files.File;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import it.greenvulcano.frag.util.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 public class SystemsBuilder extends Builder {
 
-    final String OUTPUT_BASE_PATH = Main.BASE_PATH + "/GVSystems";
+    final String OUTPUT_BASE_PATH = PathResolver.get(Main.BASE_PATH, "GVSystems");
     final String BASE_XPATH = "/GVCore/GVSystems";
 
     @Override
@@ -33,7 +34,7 @@ public class SystemsBuilder extends Builder {
             NodeList channels = (NodeList) xpath.compile("Channel").evaluate(system, XPathConstants.NODESET);
             for (Node channel : Utils.iterable(channels)) {
                 String fileName = ((Element) channel).getAttribute("id-channel") + ".xml";
-                outputFiles.add(new File(Utils.nodeToDocument(channel), Utils.pathBuilder(OUTPUT_BASE_PATH, currentSystem),
+                outputFiles.add(new File(Utils.nodeToDocument(channel), PathResolver.get(OUTPUT_BASE_PATH, currentSystem),
                         fileName));
             }
         }
@@ -42,7 +43,7 @@ public class SystemsBuilder extends Builder {
 
     @Override
     public void remake(Document gvfrag, String path) throws ParserConfigurationException, SAXException, IOException {
-        java.io.File rootDir = new java.io.File(path + "/GVSystems");
+        java.io.File rootDir = new java.io.File(PathResolver.get(path, "GVSystems"));
         Element GVSystems = gvfrag.createElement("GVSystems");
         GVSystems.setAttribute("name", "SYSTEMS");
         GVSystems.setAttribute("type", "module");

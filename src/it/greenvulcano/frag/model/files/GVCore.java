@@ -1,6 +1,7 @@
 package it.greenvulcano.frag.model.files;
 
 import it.greenvulcano.frag.Main;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -27,11 +28,13 @@ public class GVCore {
 
     public static void create(Document gvfrag) throws TransformerException, IOException {
         new File(docToString(gvfrag), Main.BASE_PATH, name).create();
-        System.out.println(String.format("Generated %s/%s",
-                Main.BASE_PATH, name));
+        System.out.println(String.format("Generated %s%s%s",
+                Main.BASE_PATH, PathResolver.separator, name));
     }
 
     public static Document read(String path) throws IOException, ParserConfigurationException, SAXException {
+        // workaround: Reads XML as string and replaces doctype declaration, since it points to a
+        // non-existing URL. Otherwise DocumentBuilder throws exception while parsing
         String gvcore = new String(Files.readAllBytes(Paths.get(path))).replace(TO_REPLACE, "\n");
         InputSource is = new InputSource();
         is.setCharacterStream(new StringReader(gvcore));

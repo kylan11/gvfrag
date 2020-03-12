@@ -12,9 +12,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class Main {
 
+    public static String CURRENT_VERSION = "0.1.3";
+    public static String GAIA_VERSION = "4.1.0";
     public static String BASE_PATH = "output";
 
     public static void main(String[] args) {
@@ -31,6 +34,7 @@ public class Main {
                     case "-s":
                         splitCore(args[1]);
                         break;
+                    case "-h":
                     case "--help":
                         Utils.help();
                         break;
@@ -51,7 +55,6 @@ public class Main {
     public static void splitCore(String pathToCore) throws SAXException, IOException, ParserConfigurationException,
             XPathExpressionException, TransformerFactoryConfigurationError, TransformerException {
         Document gvCore = GVCore.read(pathToCore);
-
         PolicyBuilder policy = new PolicyBuilder();
         ServicesBuilder services = new ServicesBuilder();
         SystemsBuilder systems = new SystemsBuilder();
@@ -71,7 +74,7 @@ public class Main {
 
     public static void makeCore(String pathToFrag) throws SAXException, IOException, ParserConfigurationException, TransformerException {
         Document gvFrag = GVFrag.read(pathToFrag);
-        final String basePath = Utils.absoluteToPath(pathToFrag);
+        final String basePath = Paths.get(pathToFrag).getParent().toString();
 
         PolicyBuilder policy = new PolicyBuilder();
         ServicesBuilder services = new ServicesBuilder();

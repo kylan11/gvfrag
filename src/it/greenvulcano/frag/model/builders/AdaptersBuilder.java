@@ -2,6 +2,7 @@ package it.greenvulcano.frag.model.builders;
 
 import it.greenvulcano.frag.Main;
 import it.greenvulcano.frag.model.files.File;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import it.greenvulcano.frag.util.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -16,8 +17,9 @@ import java.io.IOException;
 
 public class AdaptersBuilder extends Builder {
 
-    final String OUTPUT_BASE_PATH = Main.BASE_PATH + "/GVAdapters";
+    final String OUTPUT_BASE_PATH = PathResolver.get(Main.BASE_PATH, "GVAdapters");
     final String BASE_XPATH = "/GVCore/GVAdapters";
+
 
     @Override
     public void build(Document doc) throws XPathExpressionException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, IOException {
@@ -29,7 +31,7 @@ public class AdaptersBuilder extends Builder {
 
     @Override
     public void remake(Document gvfrag, String path) throws ParserConfigurationException, SAXException, IOException {
-        Node adapters = Utils.fileToDocument(new java.io.File(path + "/" + "GVAdapters/GVAdapters.xml")).getFirstChild();
+        Node adapters = Utils.fileToDocument(new java.io.File(PathResolver.get(path, "GVAdapters", "GVAdapters.xml"))).getFirstChild();
         gvfrag.getFirstChild().appendChild(gvfrag.adoptNode(adapters));
     }
 }

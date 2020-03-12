@@ -1,6 +1,7 @@
 package it.greenvulcano.frag.model.files;
 
 import it.greenvulcano.frag.Main;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import it.greenvulcano.frag.util.Utils;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -19,8 +20,8 @@ public class GVFrag {
 
     public static void create(Document skeleton) throws TransformerException, IOException {
         new File(skeleton, Main.BASE_PATH, name).create();
-        System.out.println(String.format("Generated %s/%s",
-                Main.BASE_PATH, name));
+        System.out.println(String.format("Generated %s%s%s",
+                Main.BASE_PATH, PathResolver.separator, name));
     }
 
 

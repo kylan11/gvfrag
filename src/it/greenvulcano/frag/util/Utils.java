@@ -11,7 +11,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Utils {
 
@@ -52,17 +53,6 @@ public class Utils {
         return doc;
     }
 
-    // takes variable num of strings and joins them to form a path
-    public static String pathBuilder(String... paths) {
-        return String.join("/", paths) + "/";
-    }
-
-    // /home/supermario/file.txt -> /home/supermario
-    public static String absoluteToPath(String absolutePath) {
-        List<String> l = new ArrayList<>(Arrays.asList(absolutePath.split("/")));
-        l.remove(l.size() - 1);
-        return absolutePath.startsWith("/") ? "/" + String.join("/", l) : String.join("/", l);
-    }
 
     public static void invalidArgs() {
         System.out.println("Invalid arguments. Usage: java -jar gvfrag.jar [-S|-M] "
@@ -73,9 +63,12 @@ public class Utils {
     public static void help() {
         System.out.println("Usage: java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]"
                 + "[/optional/output/dir]\n"
-                + "[-S]: Split GVCore into folder components and produces GVFrag.xml\n"
-                + "[-M]: Produce GVCore.xml from GVFrag.xml and attached folder components.\n"
-                + "[--help]: Displays this message.");
+                + "[-s]: Split GVCore into folder components and produces GVFrag.xml\n"
+                + "[-m]: Produce GVCore.xml from GVFrag.xml and attached folder components.\n"
+                + "[-h|--help]: Displays this message.\n\n");
+        System.out.println(String.format("GVFrag v%s\n" +
+                "Java v%s\n" +
+                "GreenVulcano ESB (GAIA) v%s", Main.CURRENT_VERSION, getJavaVersion(), Main.GAIA_VERSION));
     }
 
     public static void genericError() {
@@ -92,5 +85,9 @@ public class Utils {
         } catch (IndexOutOfBoundsException e) {
             return Main.BASE_PATH;
         }
+    }
+
+    public static String getJavaVersion() {
+        return Runtime.class.getPackage().getImplementationVersion();
     }
 }

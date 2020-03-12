@@ -1,4 +1,5 @@
 package it.greenvulcano.frag.model.files;
+import it.greenvulcano.frag.model.fs.PathResolver;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.*;
@@ -114,7 +115,7 @@ public class File {
 
 
     public String getFilePath() {
-        return getPathString() + "/" + name;
+        return getPathString() + PathResolver.separator + name;
     }
 
     /**
