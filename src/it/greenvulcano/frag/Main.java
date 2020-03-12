@@ -22,29 +22,26 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            // if present, overrides default base path
+            BASE_PATH = Utils.getBasePath(args);
 
-            if (args.length > 1) {
-                // if present, overrides default base path
-                BASE_PATH = Utils.getBasePath(args);
-
-                switch (args[0].toLowerCase()) {
-                    case "-m":
-                        makeCore(args[1]);
-                        break;
-                    case "-s":
-                        splitCore(args[1]);
-                        break;
-                    case "-h":
-                    case "--help":
-                        Utils.help();
-                        break;
-                    default:
-                        Utils.invalidArgs();
-                        break;
-                }
-            } else {
-                Utils.invalidArgs();
+            switch (args[0].toLowerCase()) {
+                case "-m":
+                    makeCore(args[1]);
+                    break;
+                case "-s":
+                    splitCore(args[1]);
+                    break;
+                case "-h":
+                case "--help":
+                    Utils.help();
+                    break;
+                default:
+                    Utils.invalidArgs();
+                    break;
             }
+        } catch (IndexOutOfBoundsException e) {
+            Utils.invalidArgs();
         } catch (IOException e) {
             Utils.fileNotFound();
         } catch (Exception e) {

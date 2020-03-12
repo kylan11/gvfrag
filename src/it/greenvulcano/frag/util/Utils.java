@@ -55,20 +55,21 @@ public class Utils {
 
 
     public static void invalidArgs() {
-        System.out.println("Invalid arguments. Usage: java -jar gvfrag.jar [-S|-M] "
-                + "/path/to/[GVCore.xml|GVFrag.xml] [/optional/output/dir]\n" +
+        System.out.println("Invalid arguments. Usage: java -jar gvfrag.jar [OPTION] "
+                + "[/path/to/<GVCore.xml|GVFrag.xml>] [/optional/output/dir]\n" +
                 "Use --help for additional info.");
     }
 
     public static void help() {
-        System.out.println("Usage: java -jar gvfrag.jar [-S|-M] /path/to/[GVCore.xml|GVFrag.xml]"
+        System.out.println("Usage: java -jar gvfrag.jar [OPTION] [/path/to/<GVCore.xml|GVFrag.xml>]"
                 + "[/optional/output/dir]\n"
+                + "OPTIONS\n"
                 + "[-s]: Split GVCore into folder components and produces GVFrag.xml\n"
                 + "[-m]: Produce GVCore.xml from GVFrag.xml and attached folder components.\n"
                 + "[-h|--help]: Displays this message.\n\n");
         System.out.println(String.format("GVFrag v%s\n" +
                 "Java v%s\n" +
-                "GreenVulcano ESB (GAIA) v%s", Main.CURRENT_VERSION, getJavaVersion(), Main.GAIA_VERSION));
+                "GreenVulcano ESB (GAIA) v%s", Main.CURRENT_VERSION, getJavaVersion() == "null" ? getJavaVersion() : "11", Main.GAIA_VERSION));
     }
 
     public static void genericError() {
