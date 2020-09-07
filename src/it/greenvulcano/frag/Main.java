@@ -24,6 +24,7 @@ public class Main {
         try {
             // if present, overrides default base path
             BASE_PATH = Utils.getBasePath(args);
+	    System.out.println("Test michele");
 
             switch (args[0].toLowerCase()) {
                 case "-m":
